@@ -23,8 +23,7 @@ public class Temperature
     public override string? ToString()
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"\nHardware Name: {HardwareName.OrDashIfEmpty()}");
-        sb.AppendLine($"Hardware Type: {HardwareType.OrDashIfEmpty()}");
+        sb.AppendLine($"\n{HardwareType.OrDashIfEmpty()}: {HardwareName.OrDashIfEmpty()}");
 
         if (Sensors == null || !Sensors.Any())
         {
@@ -34,9 +33,7 @@ public class Temperature
 
         foreach (var sensor in Sensors)
         {
-            sb.AppendLine($"\tSensor Name: {sensor.SensorName.OrDashIfEmpty()}")
-              .AppendLine($"\tTemperature: {sensor.SensorValue.ToTemperatureCelsius()}")
-              .AppendLine($"\t_________________________________________________________");
+            sb.AppendLine($"\t{sensor.SensorName.OrDashIfEmpty()}: {sensor.SensorValue.ToTemperatureCelsius()}");
         }
 
         return sb.ToString().TrimEnd();
