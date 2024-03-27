@@ -23,19 +23,18 @@ public class Temperature
     public override string? ToString()
     {
         var sb = new StringBuilder();
-        sb.AppendLine($"\n{HardwareType.OrDashIfEmpty()}: {HardwareName.OrDashIfEmpty()}");
 
-        if (Sensors == null || !Sensors.Any())
+        sb.AppendLine($"{HardwareType.OrDashIfEmpty()}: {HardwareName.OrDashIfEmpty()}");
+
+        if (Sensors == null || Sensors.Count == 0)
         {
-            sb.AppendLine("No temperature sensors detected!\n");
-            return sb.ToString().TrimEnd();
+            sb.AppendLine("No temperature sensors detected!");
+            return sb.ToString();
         }
 
         foreach (var sensor in Sensors)
-        {
             sb.AppendLine($"\t{sensor.SensorName.OrDashIfEmpty()}: {sensor.SensorValue.ToTemperatureCelsius()}");
-        }
 
-        return sb.ToString().TrimEnd();
+        return sb.ToString();
     }
 }
