@@ -1,16 +1,10 @@
-﻿namespace TemperatureInfo
+﻿namespace TemperatureInfo;
+
+public class Program
 {
-    internal class Program
+    static void Main()
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Leitura da temperatura dos componentes do Computador: ");
-
-            var Leitura = new Leitura();
-
-            Leitura.Monitor();
-
-            Console.ReadLine();
-        }
+        if (OperatingSystem.IsWindows())
+            TemperatureInfoService.GetTemperatureInfo();
     }
 }
