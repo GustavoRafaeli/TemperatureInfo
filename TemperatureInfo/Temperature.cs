@@ -1,30 +1,44 @@
-﻿using TemperatureInfo.Extensions;
+﻿using System.Text;
+using TemperatureInfo.Extensions;
 
 namespace TemperatureInfo;
 
 public class Temperature
 {
-    public string HardwareName { get; set; }
-    public string HardwareType { get; set; }
-    public List<Sensor> Sensor { get; set; }
+    public string HardwareName { get; private set; }
+    public string HardwareType { get; private set; }
+    public List<Sensor>? Sensors { get; private set; }
+
+    public Temperature(string hardwareName, string hardwareType)
+    {
+        HardwareName = hardwareName;
+        HardwareType = hardwareType;
+    }
+
+    public void SetSensors(List<Sensor>? sensors)
+    {
+        Sensors = sensors;
+    }
 
     public override string? ToString()
     {
-        int padWidth = 15;
+        var sb = new StringBuilder();
+        sb.AppendLine($"\nHardware Name: {HardwareName.OrDashIfEmpty()}");
+        sb.AppendLine($"Hardware Type: {HardwareType.OrDashIfEmpty()}");
 
-        if (Sensor == null)
-            return "\nHardware Name".PadRight(padWidth) + $": {HardwareName.OrDashIfEmpty()}\n" +
-                            "No temperature sensors detected!\n";
-
-        var temperatureString = "Hardware Name".PadRight(padWidth) + $": {HardwareName.OrDashIfEmpty()}\n" +
-                "Hardware Type".PadRight(padWidth) + ": " + HardwareType.OrDashIfEmpty() + "\n";
-
-        foreach (var sensor in Sensor)
+        if (Sensors == null || !Sensors.Any())
         {
-            temperatureString += "\tSensor Name".PadRight(padWidth) + $": {sensor.SensorName.OrDashIfEmpty()}\n" +
-                                "\tTemperature".PadRight(padWidth) + $": {sensor.SensorValue.ToTemperatureCelsius()}\n";
+            sb.AppendLine("No temperature sensors detected!\n");
+            return sb.ToString().TrimEnd();
         }
 
-        return temperatureString;
+        foreach (var sensor in Sensors)
+        {
+            sb.AppendLine($"\tSensor Name: {sensor.SensorName.OrDashIfEmpty()}")
+              .AppendLine($"\tTemperature: {sensor.SensorValue.ToTemperatureCelsius()}")
+              .AppendLine($"\t_________________________________________________________");
+        }
+
+        return sb.ToString().TrimEnd();
     }
 }

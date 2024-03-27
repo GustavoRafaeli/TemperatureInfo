@@ -2,9 +2,9 @@
 
 public class Program
 {
-    static void Main(string[] args)
+    static void Main()
     {
-        TemperatureInfoService.GetTemperatureInfo();
-        Console.ReadLine();
+        if (OperatingSystem.IsWindows())
+            TemperatureInfoService.GetTemperatureInfo();
     }
 }

@@ -6,7 +6,7 @@ public static class TemperatureInfoService
 {
     public static void GetTemperatureInfo()
     {
-        Computer computer = new Computer
+        var computer = new Computer
         {
             IsCpuEnabled = true,
             IsGpuEnabled = true,
@@ -20,34 +20,42 @@ public static class TemperatureInfoService
 
         var temperatureList = new List<Temperature>();
 
-        foreach (IHardware hardware in computer.Hardware)
+        foreach (var hardware in computer.Hardware)
         {
-            var temperature = new Temperature();
+            var temperature = new Temperature(hardware.Name, hardware.HardwareType.ToString());
 
-            temperature.HardwareName = hardware.Name;
-            temperature.HardwareType = hardware.HardwareType.ToString();
+            var sensors = GetSensors(hardware);
 
-            var sensorList = new List<Sensor>();
+            temperature.SetSensors(sensors);
 
-            foreach (ISensor sensor in hardware.Sensors)
+            foreach (var subHardware in hardware.SubHardware)
             {
-                if (sensor.SensorType == SensorType.Temperature)
-                {
-                    sensorList.Add(new Sensor(sensor.Name, sensor.Value));
-                }
+                var sensorsSub = GetSensors(subHardware);
+
+                temperature.SetSensors(sensorsSub);
             }
-            if (sensorList.Count > 0)
-                temperature.Sensor = sensorList;
 
             temperatureList.Add(temperature);
         }
 
         computer.Close();
 
-        temperatureList.ForEach(temperature =>
+        foreach (var temperature in temperatureList)
         {
             Console.WriteLine(temperature.ToString());
-        });
+        }
 
+        Console.ReadLine();
+    }
+
+    private static List<Sensor>? GetSensors(IHardware? hardware)
+    {
+        if (hardware == null)
+            return null;
+
+        return hardware.Sensors
+                        .Where(sensor => sensor.SensorType == SensorType.Temperature)
+                        .Select(sensor => new Sensor(sensor.Name, sensor.Value))
+                        .ToList();
     }
 }

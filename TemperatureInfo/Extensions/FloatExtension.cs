@@ -1,10 +1,9 @@
-﻿namespace TemperatureInfo.Extensions
+﻿namespace TemperatureInfo.Extensions;
+
+public static class FloatExtension
 {
-    public static class FloatExtension
+    public static string? ToTemperatureCelsius(this float? flt)
     {
-        public static string? ToTemperatureCelsius(this float? flt)
-        {
-            return flt == null ? "-" : flt.ToString() + " °C";
-        }
+        return flt == null ? "-" : flt.ToString() + " °C";
     }
 }

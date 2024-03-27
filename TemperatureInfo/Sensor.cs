@@ -1,14 +1,7 @@
-﻿namespace TemperatureInfo
-{
-    public class Sensor
-    {
-        public string SensorName { get; set; }
-        public float? SensorValue { get; set; }
+﻿namespace TemperatureInfo;
 
-        public Sensor(string sensorName, float? sensorValue)
-        {
-            SensorName = sensorName;
-            SensorValue = sensorValue;
-        }
-    }
+public class Sensor(string sensorName, float? sensorValue)
+{
+    public string SensorName { get; private set; } = sensorName;
+    public float? SensorValue { get; private set; } = sensorValue;
 }
