@@ -48,10 +48,10 @@ Cpu: Intel Core i5-1035G1
         Core Average: 51 °C
 
 Gpu: NVIDIA GeForce GTX 4060 Ti
-    GPU Core: 65°C
+        GPU Core: 65°C
 
 Storage: Samsung SSD 970 EVO 1TB
-    Temperature: 40°C
+        Temperature: 40°C
 ```
 
 **Nota**: As temperaturas exibidas e os componentes monitorados podem variar dependendo do hardware do sistema e da disponibilidade dos sensores.
